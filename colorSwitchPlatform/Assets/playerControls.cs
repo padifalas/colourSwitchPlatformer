@@ -44,6 +44,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeColor"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4bb1525-94e4-4f7f-a89a-8dbe06c7c0a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookAround"",
+                    ""type"": ""Value"",
+                    ""id"": ""93612acd-c095-42e8-bc59-f463cfd3e8b3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -154,6 +172,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0dd3536c-c955-4fa0-8de5-8376e7075557"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ChangeColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c583ccc9-b44f-4dc2-affb-29a0d23b73d9"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""LookAround"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -743,6 +783,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_ChangeColor = m_Player.FindAction("ChangeColor", throwIfNotFound: true);
+        m_Player_LookAround = m_Player.FindAction("LookAround", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -818,12 +860,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_ChangeColor;
+    private readonly InputAction m_Player_LookAround;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @ChangeColor => m_Wrapper.m_Player_ChangeColor;
+        public InputAction @LookAround => m_Wrapper.m_Player_LookAround;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -839,6 +885,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @ChangeColor.started += instance.OnChangeColor;
+            @ChangeColor.performed += instance.OnChangeColor;
+            @ChangeColor.canceled += instance.OnChangeColor;
+            @LookAround.started += instance.OnLookAround;
+            @LookAround.performed += instance.OnLookAround;
+            @LookAround.canceled += instance.OnLookAround;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -849,6 +901,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @ChangeColor.started -= instance.OnChangeColor;
+            @ChangeColor.performed -= instance.OnChangeColor;
+            @ChangeColor.canceled -= instance.OnChangeColor;
+            @LookAround.started -= instance.OnLookAround;
+            @LookAround.performed -= instance.OnLookAround;
+            @LookAround.canceled -= instance.OnLookAround;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1033,6 +1091,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnChangeColor(InputAction.CallbackContext context);
+        void OnLookAround(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
