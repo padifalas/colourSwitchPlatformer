@@ -15,11 +15,11 @@ public class playerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool isGrounded;
 
-    public Transform playerCamera; // Reference to the camera
-    public float lookSpeedX = 2f; // Rotation speed around X-axis (for mouse movement)
-    public float lookSpeedY = 2f; // Rotation speed around Y-axis (for mouse movement)
-    private float currentRotationX = 0f; // For storing X rotation
-    private float currentRotationY = 0f; // For storing Y rotation
+    public Transform playerCamera; 
+    public float lookSpeedX = 2f; 
+    public float lookSpeedY = 2f; 
+    private float currentRotationX = 0f; 
+    private float currentRotationY = 0f; 
 
     void Awake()
     {
@@ -78,7 +78,7 @@ public class playerMovement : MonoBehaviour
     {
   
         currentRotationX -= lookInput.y * lookSpeedY;
-        currentRotationX = Mathf.Clamp(currentRotationX, -80f, 80f); 
+        currentRotationX = Mathf.Clamp(currentRotationX, -50f, 50f); 
         
         currentRotationY += lookInput.x * lookSpeedX;
         

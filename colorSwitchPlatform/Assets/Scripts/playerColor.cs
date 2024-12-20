@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class playerColor : MonoBehaviour
 {
     public Material playerMaterial; 
-    private string[] colors = { "Red", "Blue", "Green" };
+    private string[] colors = { "Red", "Blue", "Yellow" };
     private int currentIndex = 0; 
     private string currentColor;
 
@@ -51,8 +51,8 @@ public class playerColor : MonoBehaviour
             case "Blue":
                 playerMaterial.color = Color.blue;
                 break;
-            case "Green":
-                playerMaterial.color = Color.green;
+            case "Yellow":
+                playerMaterial.color = Color.yellow;
                 break;
         }
 
